@@ -7,7 +7,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-FF6B00)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791)
-
+![Stars](https://img.shields.io/github/stars/Diavollll/umax-crm?style=for-the-badge)
 ---
 
 ## Содержание
