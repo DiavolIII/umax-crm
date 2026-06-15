@@ -355,5 +355,5 @@ python -m uvicorn app.main:app --reload --port 8080
 ##  Статистика репо
 
 <p align="center">
-  <img src="https://repobeats.axiom.co/api/embed/ВАШ_ХЕШ_REPO.svg" alt="Repobeats analytics image" />
+  <img src="https://repobeats.axiom.co/api/embed/db21ab73292e3d63fabfcc7a4539909e83375fdc.svg" alt="Repobeats analytics image" />
 </p>
