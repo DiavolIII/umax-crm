@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Юмакс CRM - пользователи</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-header">
+        <div class="app-logo">
+            <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                <rect width="48" height="48" rx="12" fill="url(#grad)"/>
+                <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8C00"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>
+                <path d="M24 14L34 20V28L24 34L14 28V20L24 14Z" stroke="white" stroke-width="2" fill="none"/>
+                <circle cx="24" cy="24" r="3" fill="white"/>
+            </svg>
+            <h1>Юмакс <span>CRM</span></h1>
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <span class="user-role" id="userRole"></span>
+            <button class="logout-btn" onclick="logout()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <nav class="app-nav">
+        <a href="requests.html" class="nav-link">заявки</a>
+        <a href="courses.html" class="nav-link">курсы</a>
+        <a href="users.html" class="nav-link active" id="usersNavLink">пользователи</a>
+        <a href="import.html" class="nav-link" id="importNav">импорт</a>
+    </nav>
+    <div class="main-content">
+        <div class="welcome-card">
+            <div><h2>управление пользователями</h2><p>роли и доступы</p></div>
+            <button class="btn-create" onclick="openUserModal()" style="background:white; color:#FF6B00">+ новый пользователь</button>
+        </div>
+        <div class="users-table-container">
+            <table class="users-table">
+                <thead><tr><th>id</th><th>фио</th><th>логин</th><th>роль</th><th>статус</th><th>действия</th></tr></thead>
+                <tbody id="usersTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="userModalTitle">новый пользователь</h3><button class="close-modal" onclick="closeUserModal()">&times;</button></div>
+            <div class="modal-body">
+                <input type="hidden" id="userEditId">
+                <div class="form-group"><label>фио</label><input type="text" id="userFullName" required></div>
+                <div class="form-group"><label>логин</label><input type="text" id="userLogin" required></div>
+                <div class="form-group"><label>пароль</label><input type="password" id="userPassword" placeholder="оставьте пустым чтобы не менять"></div>
+                <div class="form-group"><label>роль</label><select id="userRoleId"></select></div>
+                <div class="form-group"><label><input type="checkbox" id="userIsActive" checked> активен</label></div>
+            </div>
+            <div class="modal-footer"><button class="btn-cancel" onclick="closeUserModal()">отмена</button><button class="btn-save" onclick="saveUser()">сохранить</button></div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>

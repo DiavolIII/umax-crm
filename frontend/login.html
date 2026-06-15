@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Юмакс CRM - вход</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="12" fill="#FF6B00"/>
+                        <path d="M24 14L34 20V28L24 34L14 28V20L24 14Z" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M24 24L30 27.5V34.5L24 38L18 34.5V27.5L24 24Z" fill="white" fill-opacity="0.8"/>
+                        <circle cx="24" cy="24" r="3" fill="#FF6B00"/>
+                    </svg>
+                    <span>Юмакс <span class="accent">CRM</span></span>
+                </div>
+                <p class="subtitle">единая система управления заявками</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label>логин</label>
+                    <input type="text" id="login" placeholder="введите логин" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>пароль</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="введите пароль" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login">войти в систему</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

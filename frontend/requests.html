@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Юмакс CRM — заявки</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-logo">
+            <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                <rect width="48" height="48" rx="12" fill="url(#grad)"/>
+                <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8C00"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>
+                <path d="M24 14L34 20V28L24 34L14 28V20L24 14Z" stroke="white" stroke-width="2" fill="none"/>
+                <circle cx="24" cy="24" r="3" fill="white"/>
+            </svg>
+            <h1>Юмакс <span>CRM</span></h1>
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <span class="user-role" id="userRole"></span>
+            <button class="logout-btn" onclick="logout()" title="выйти">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav class="app-nav">
+        <a href="requests.html" class="nav-link active">заявки</a>
+        <a href="courses.html" class="nav-link">курсы</a>
+        <a href="users.html" class="nav-link" id="usersNav" style="display:none">пользователи</a>
+        <a href="import.html" class="nav-link" id="importNav" style="display:none">импорт</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="welcome-card">
+            <div>
+                <h2>реестр заявок</h2>
+                <p>управление и контроль обращений приёмной комиссии</p>
+            </div>
+            <div class="today-date" id="todayDate"></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="statTotal">0</div><div class="stat-label">всего</div></div>
+            <div class="stat-card stat-new"><div class="stat-value" id="statNew">0</div><div class="stat-label">новые</div></div>
+            <div class="stat-card stat-progress"><div class="stat-value" id="statProgress">0</div><div class="stat-label">в работе</div></div>
+            <div class="stat-card stat-overdue"><div class="stat-value" id="statOverdue">0</div><div class="stat-label">просрочено</div></div>
+            <div class="stat-card stat-enrolled"><div class="stat-value" id="statEnrolled">0</div><div class="stat-label">записаны</div></div>
+        </div>
+
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label>поиск</label>
+                <input type="text" id="searchInput" placeholder="ФИО, телефон, email">
+            </div>
+            <div class="filter-group">
+                <label>статус</label>
+                <select id="statusFilter"><option value="">все</option></select>
+            </div>
+            <div class="filter-group">
+                <label>предмет</label>
+                <select id="subjectFilter"><option value="">все</option></select>
+            </div>
+            <div class="filter-group">
+                <label>источник</label>
+                <select id="sourceFilter"><option value="">все</option></select>
+            </div>
+            <div class="filter-group">
+                <label>менеджер</label>
+                <select id="managerFilter"><option value="">все</option></select>
+            </div>
+            <div class="filter-group">
+                <label>сортировка</label>
+                <select id="sortBy">
+                    <option value="created_at">дата создания</option>
+                    <option value="next_contact_date">дата контакта</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>порядок</label>
+                <select id="sortOrder">
+                    <option value="desc">убывание</option>
+                    <option value="asc">возрастание</option>
+                </select>
+            </div>
+            <div class="filter-group filter-checkbox">
+                <label><input type="checkbox" id="overdueOnly"> только просроченные</label>
+            </div>
+            <button class="btn-filter" onclick="loadRequests()">применить</button>
+            <button class="btn-reset" onclick="resetFilters()">сброс</button>
+            <button class="btn-export" onclick="exportRequests()">⬇ экспорт CSV</button>
+            <button class="btn-create" onclick="openCreateModal()">+ новая заявка</button>
+        </div>
+
+        <div class="requests-table-container">
+            <table class="requests-table">
+                <thead>
+                    <tr>
+                        <th>№</th><th>дата</th><th>ученик</th><th>класс</th>
+                        <th>курс</th><th>статус</th><th>менеджер</th><th>след. контакт</th><th>действия</th>
+                    </tr>
+                </thead>
+                <tbody id="requestsTableBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display:none">
+                <p>заявки не найдены</p>
+                <button class="btn-create" onclick="openCreateModal()">создать первую заявку</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="requestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">новая заявка</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-row">
+                    <div class="form-group"><label>ФИО ученика *</label><input type="text" id="studentName" required placeholder="Иванов Иван Иванович"></div>
+                    <div class="form-group"><label>класс (9–11) *</label><input type="number" id="studentGrade" min="9" max="11" value="9"></div>
+                </div>
+                <div class="form-group"><label>ФИО родителя</label><input type="text" id="parentName" placeholder="необязательно"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>телефон *</label><input type="tel" id="phone" required placeholder="+79001234567"></div>
+                    <div class="form-group"><label>email</label><input type="email" id="email" placeholder="example@mail.ru"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>курс *</label>
+                        <select id="courseId" required></select>
+                        <div id="seatsWarning" class="seats-warning" style="display:none; margin-top:8px"></div>
+                    </div>
+                    <div class="form-group"><label>источник *</label><select id="sourceId" required></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>статус *</label><select id="statusId" required></select></div>
+                    <div class="form-group"><label>менеджер *</label><select id="managerId" required></select></div>
+                </div>
+                <div class="form-group"><label>дата след. контакта</label><input type="date" id="nextContact"></div>
+                <div class="form-group"><label>комментарий</label><textarea id="comment" rows="3" placeholder="заметки менеджера..."></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">отмена</button>
+                <button class="btn-save" onclick="saveRequest()">сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="commentsModal" class="modal">
+        <div class="modal-content" style="max-width:520px">
+            <div class="modal-header">
+                <h3>комментарии</h3>
+                <button class="close-modal" onclick="closeCommentsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="commentsList" class="comments-list"></div>
+                <div class="form-group"><textarea id="newComment" rows="2" placeholder="добавить комментарий..."></textarea></div>
+                <button class="btn-save" style="width:100%" onclick="addComment()">отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/requests.js"></script>
+</body>
+</html>
