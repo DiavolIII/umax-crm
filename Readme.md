@@ -351,3 +351,9 @@ python -m uvicorn app.main:app --reload --port 8080
 ---
 
 *Проект разработан для образовательного центра «Юмакс».*
+
+##  Статистика репо
+
+<p align="center">
+  <img src="https://repobeats.axiom.co/api/embed/ВАШ_ХЕШ_REPO.svg" alt="Repobeats analytics image" />
+</p>
